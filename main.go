@@ -20,11 +20,11 @@ func main() {
 
 	buff := make([]byte, 8096, 8096)
 
-	counters := make([]int64, 256)
+	counters := make(map[byte]int64, 256)
 
 	for read, err := reader.Read(buff); err != io.EOF; read, err = reader.Read(buff) {
 		for i := 0; i < read; i++ {
-			b := int(buff[i])
+			b := buff[i]
 			if b != 10 {
 				counters[b] = counters[b] + 1
 			}
