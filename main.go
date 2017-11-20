@@ -20,18 +20,24 @@ func main() {
 
 	buff := make([]byte, 8096, 8096)
 
-	counters := make(map[byte]int64, 256)
+	counters := make([]int64, 256)
 
 	for read, err := reader.Read(buff); err != io.EOF; read, err = reader.Read(buff) {
 		for i := 0; i < read; i++ {
 			b := buff[i]
 			if b != 10 {
-				counters[b] = counters[b] + 1
+				counters[b]++
 			}
 		}
 	}
 
-	sorted := sortMap(counters)
+	countersMap := make(map[byte]int64)
+
+	for i := 0; i < len(counters); i++ {
+		countersMap[byte(i)] = counters[i]
+	}
+
+	sorted := sortMap(countersMap)
 
 	samplesCount := int64(0)
 
